@@ -1,0 +1,31 @@
+apiVersion: skaffold/v1alpha2
+kind: Config
+build:
+  tagPolicy:
+    envTemplate:
+      template: "{{.DOCKER_REGISTRY}}/schmidtp0740/medbo-hack:{{.VERSION}}"
+  artifacts:
+  - imageName: changeme
+    workspace: .
+    docker: {}
+  local: {}
+deploy:
+  kubectl:
+    manifests:
+profiles:
+- name: dev
+  build:
+    tagPolicy:
+      envTemplate:
+        template: "{{.DOCKER_REGISTRY}}/schmidtp0740/medbo-hack:{{.DIGEST_HEX}}"
+    artifacts:
+    - docker: {}
+    local: {}
+  deploy:
+    helm:
+      releases:
+      - name: medbo-hack
+        chartPath: charts/medbo-hack
+        setValueTemplates:
+          image.repository: "{{.DOCKER_REGISTRY}}/schmidtp0740/medbo-hack"
+          image.tag: "{{.DIGEST_HEX}}"
