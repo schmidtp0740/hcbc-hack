@@ -4,7 +4,7 @@ pipeline {
   }
   environment {
     ORG = 'schmidtp0740'
-    APP_NAME = 'medbo-hack'
+    APP_NAME = 'hcbc-hack'
     CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
   }
   stages {
@@ -19,13 +19,13 @@ pipeline {
       }
       steps {
         container('go') {
-          dir('/home/jenkins/go/src/github.com/schmidtp0740/medbo-hack') {
+          dir('/home/jenkins/go/src/github.com/schmidtp0740/hcbc-hack') {
             checkout scm
             sh "make linux"
             sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml"
             sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:$PREVIEW_VERSION"
           }
-          dir('/home/jenkins/go/src/github.com/schmidtp0740/medbo-hack/charts/preview') {
+          dir('/home/jenkins/go/src/github.com/schmidtp0740/hcbc-hack/charts/preview') {
             sh "make preview"
             sh "jx preview --app $APP_NAME --dir ../.."
           }
@@ -38,7 +38,7 @@ pipeline {
       }
       steps {
         container('go') {
-          dir('/home/jenkins/go/src/github.com/schmidtp0740/medbo-hack') {
+          dir('/home/jenkins/go/src/github.com/schmidtp0740/hcbc-hack') {
             checkout scm
 
             // ensure we're not on a detached head
@@ -62,7 +62,7 @@ pipeline {
       }
       steps {
         container('go') {
-          dir('/home/jenkins/go/src/github.com/schmidtp0740/medbo-hack/charts/medbo-hack') {
+          dir('/home/jenkins/go/src/github.com/schmidtp0740/hcbc-hack/charts/hcbc-hack') {
             sh "jx step changelog --version v\$(cat ../../VERSION)"
 
             // release the helm chart

@@ -64,7 +64,7 @@ document.onkeypress = function(evt) {
     var charCode = evt.keyCode || evt.which;
     var charStr = String.fromCharCode(charCode);
     if (charStr=='q'){
-        $.get('http://medbo-backend.jx-staging.129.213.177.165.nip.io/hack', function(data,status){
+        $.get('http://hcbc-backend.jx-staging.hcbc.cloudsolutionhubs.com/hack', function(data,status){
             console.log(status);
         });
         clearInterval(t);
