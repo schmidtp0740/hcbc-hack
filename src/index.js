@@ -50,7 +50,7 @@ function draw()
 
 function hack() {
 
-    $.get('http://medbo-backend.jx-staging.129.213.177.165.nip.io/hack', function(data,status){
+    $.get('http://hcbc-backend.jx-staging.hcbc.cloudsolutionhubs.com/hack', function(data,status){
         console.log(status);
     });
 
